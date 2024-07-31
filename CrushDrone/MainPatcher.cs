@@ -13,7 +13,7 @@ using innateStorage = System.Collections.Generic.List<System.Tuple<System.String
 namespace CrushDrone
 {
     [BepInPlugin("com.mikjaw.subnautica.crush.mod", "CrushDrone", "1.0.0")]
-    [BepInDependency(VehicleFramework.PluginInfo.PLUGIN_GUID, "1.2.0")]
+    [BepInDependency(VehicleFramework.PluginInfo.PLUGIN_GUID, VehicleFramework.PluginInfo.PLUGIN_VERSION)]
     [BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID)]
     public class MainPatcher : BaseUnityPlugin
     {
