@@ -157,7 +157,20 @@ namespace CrushDrone
         public override int MaxHealth => 250;
         public override int Mass => 500;
         public override int NumModules => 2;
-        public override bool HasArms => false;
+        public override bool HasArms => true;
         public override ModVehicleEngine Engine => gameObject.EnsureComponent<CrushEngine>();
+        public override VehicleArmsProxy Arms
+        {
+            get
+            {
+                return new VehicleArmsProxy
+                {
+                    leftArmPlacement = transform.Find("LeftArmPlace"),
+                    rightArmPlacement = transform.Find("RightArmPlace"),
+                    originalLeftArm = transform.Find("Robot3/body.Low").gameObject,
+                    originalRightArm = transform.Find("Robot3/body.Low.001").gameObject
+                };
+            }
+        }
     }
 }
