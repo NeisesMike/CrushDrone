@@ -172,5 +172,28 @@ namespace CrushDrone
                 };
             }
         }
+        public override void Start()
+        {
+            base.Start();
+            SetupMagnetBoots();
+        }
+        public void SetupMagnetBoots()
+        {
+            var magBoots = gameObject.EnsureComponent<VehicleFramework.VehicleComponents.MagnetBoots>();
+            magBoots.AttachDistance = 2f;
+            magBoots.MagnetDistance = 5f;
+            magBoots.Attach = Attach;
+            magBoots.Detach = Detach;
+            magBoots.recharges = true;
+            magBoots.rechargeRate = 0.5f;
+        }
+        public void Attach()
+        {
+            gameObject.EnsureComponent<VehicleFramework.VehicleComponents.VFArmsManager>().ShowArms(false);
+        }
+        public void Detach()
+        {
+            gameObject.EnsureComponent<VehicleFramework.VehicleComponents.VFArmsManager>().ShowArms(true);
+        }
     }
 }
