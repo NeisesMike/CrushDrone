@@ -26,7 +26,6 @@ namespace CrushDrone
         public override TechType UnlockedWith => MainPatcher.config.isFragmentExperience ? TechType.Fragment : TechType.Constructor;
         public override Sprite UnlockedSprite => MainPatcher.assets.unlock;
         public override string UnlockedMessage => "Drone Station Required";
-        public override int FragmentsToScan => 3;
         public override Transform CameraLocation => transform.Find("CameraLocation");
         public override string vehicleDefaultName => "Crush";
         public override GameObject VehicleModel => MainPatcher.assets.model;

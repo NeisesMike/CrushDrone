@@ -56,7 +56,20 @@ namespace CrushDrone
                 new Vector3 (-835.3f, -197.7f, 772.9f),
                 new Vector3 (-742.4f, -171.8f, 755.2f)
             };
-            return FragmentManager.RegisterFragment(assets.fragment, unlockVehicle, classID, displayName, description, assets.unlock, spawnLocations, "Crush");
+            FragmentData fragData = new FragmentData
+            {
+                fragment = assets.fragment,
+                toUnlock = unlockVehicle.GetComponent<TechTag>().type,
+                fragmentsToScan = 3,
+                scanTime = 5f,
+                classID = classID,
+                displayName = displayName,
+                description = description,
+                spawnLocations = spawnLocations,
+                spawnRotations = null,
+                encyKey = "Crush"
+            };
+            return FragmentManager.RegisterFragment(fragData);
         }
         public static void GetAssets()
         {
