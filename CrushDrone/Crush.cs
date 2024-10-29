@@ -158,19 +158,13 @@ namespace CrushDrone
         public override int NumModules => 2;
         public override bool HasArms => true;
         public override ModVehicleEngine Engine => gameObject.EnsureComponent<CrushEngine>();
-        public override VehicleArmsProxy Arms
+        public override VehicleArmsProxy Arms => new VehicleArmsProxy
         {
-            get
-            {
-                return new VehicleArmsProxy
-                {
-                    leftArmPlacement = transform.Find("LeftArmPlace"),
-                    rightArmPlacement = transform.Find("RightArmPlace"),
-                    originalLeftArm = transform.Find("Robot3/body.Low").gameObject,
-                    originalRightArm = transform.Find("Robot3/body.Low.001").gameObject
-                };
-            }
-        }
+            leftArmPlacement = transform.Find("LeftArmPlace"),
+            rightArmPlacement = transform.Find("RightArmPlace"),
+            originalLeftArm = transform.Find("Robot3/body.Low").gameObject,
+            originalRightArm = transform.Find("Robot3/body.Low.001").gameObject
+        };
         public override void Start()
         {
             base.Start();
