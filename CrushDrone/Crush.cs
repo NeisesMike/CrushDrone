@@ -32,6 +32,8 @@ namespace CrushDrone
         public override GameObject CollisionModel => transform.Find("CollisionModel").gameObject;
         public override GameObject StorageRootObject => transform.Find("StorageRoot").gameObject;
         public override GameObject ModulesRootObject => transform.Find("ModulesRoot").gameObject;
+        private int defaultStorageHeight = 5;
+        private int defaultStorageWidth = 4;
         public override List<VehicleStorage> InnateStorages
         {
             get
@@ -40,8 +42,8 @@ namespace CrushDrone
                 VehicleFramework.VehicleParts.VehicleStorage thisVS = new VehicleFramework.VehicleParts.VehicleStorage();
                 Transform thisStorage = transform.Find("ChassiTop");
                 thisVS.Container = thisStorage.gameObject;
-                thisVS.Height = 5;
-                thisVS.Width = 4;
+                thisVS.Height = defaultStorageHeight;
+                thisVS.Width = defaultStorageWidth;
                 list.Add(thisVS);
                 return list;
             }
@@ -169,6 +171,7 @@ namespace CrushDrone
         {
             base.Start();
             SetupMagnetBoots();
+            upgradeOnAddedActions.Add(CrushStorageModuleAction);
         }
         public void SetupMagnetBoots()
         {
@@ -187,6 +190,13 @@ namespace CrushDrone
         public void Detach()
         {
             gameObject.EnsureComponent<VehicleFramework.VehicleComponents.VFArmsManager>().ShowArms(true);
+        }
+
+        public void CrushStorageModuleAction(int slotID, TechType techType, bool added)
+        {
+            var numUpgrades = this.GetCurrentUpgrades().Where(x => x.Contains("SeamothStorageModule")).Count();
+            InnateStorages.First().Container.GetComponent<InnateStorageContainer>()
+                .container.Resize(defaultStorageWidth + numUpgrades, defaultStorageHeight + numUpgrades);
         }
     }
 }
