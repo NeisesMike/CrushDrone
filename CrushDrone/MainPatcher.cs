@@ -20,6 +20,7 @@ namespace CrushDrone
         internal static CrushConfig config { get; private set; }
         public static TechType CrushArmTechType;
         public static VehicleFramework.Assets.VehicleAssets assets;
+        public static List<GameObject> fragments;
         public void Awake()
         {
             GetAssets();
@@ -33,14 +34,14 @@ namespace CrushDrone
         }
         public static TechType RegisterCrushArmFragment(ModVehicle unlockVehicle)
         {
-            const string classID = "CrushArmFragment";
-            const string displayName = "Crush Arm Fragment";
+            const string classID = "CrushFragment";
+            const string displayName = "Crush Fragment";
             const string description = "A Scannable fragment of the Crush Drone";
 
             List<Vector3> spawnLocations = new List<Vector3>
             {
                 new Vector3 (-911.0f, -156.3f, 551.5f),
-                new Vector3 (-862.6f, -72.1f, 566.0f),
+                new Vector3 (-860.6f, -72.1f, 566.0f),
                 new Vector3 (-959.0f, -189.9f, 499.2f),
                 new Vector3 (-780.5f, -163.0f, 644.4f),
                 new Vector3 (-1085.4f, -187.9f, 789.4f),
@@ -52,13 +53,13 @@ namespace CrushDrone
                 new Vector3 (-761.6f, -195.9f, 797.6f),
                 new Vector3 (-662.0f, -118.0f, 785.7f),
                 new Vector3 (-694.3f, -182.5f, 614.6f),
-                new Vector3 (-737.0f, -200.1f, 851.3f),
+                new Vector3 (-737.0f, -198.7f, 851.3f),
                 new Vector3 (-835.3f, -197.7f, 772.9f),
                 new Vector3 (-742.4f, -171.8f, 755.2f)
             };
             FragmentData fragData = new FragmentData
             {
-                fragment = assets.fragment,
+                fragments = MainPatcher.fragments,
                 toUnlock = unlockVehicle.GetComponent<TechTag>().type,
                 fragmentsToScan = 3,
                 scanTime = 5f,
@@ -74,6 +75,9 @@ namespace CrushDrone
         public static void GetAssets()
         {
             assets = AssetBundleInterface.GetVehicleAssetsFromBundle("crush", "Crush", "SpriteAtlas", "DronePing", "CrafterSprite", "ArmFragment", "UnlockSprite");
+            GameObject crushFragment = AssetBundleInterface.LoadAdditionalGameObject(assets.abi, "CrushFragment");
+            MainPatcher.fragments = new List<GameObject> { assets.fragment, crushFragment };
+            assets.abi.CloseBundle();
         }
         public static IEnumerator Register()
         {
