@@ -20,6 +20,7 @@ namespace CrushDrone
         internal static CrushConfig config { get; private set; }
         public static TechType CrushArmTechType;
         public static VehicleFramework.Assets.VehicleAssets assets;
+        public static Sprite saveSprite;
         public static List<GameObject> fragments;
         public void Awake()
         {
@@ -75,6 +76,7 @@ namespace CrushDrone
         public static void GetAssets()
         {
             assets = AssetBundleInterface.GetVehicleAssetsFromBundle("crush", "Crush", "SpriteAtlas", "DronePing", "CrafterSprite", "ArmFragment", "UnlockSprite");
+            saveSprite = AssetBundleInterface.LoadAdditionalRawSprite(assets.abi, "SpriteAtlas", "DronePing");
             GameObject crushFragment = AssetBundleInterface.LoadAdditionalGameObject(assets.abi, "CrushFragment");
             MainPatcher.fragments = new List<GameObject> { assets.fragment, crushFragment };
             assets.abi.CloseBundle();

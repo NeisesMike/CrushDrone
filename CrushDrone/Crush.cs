@@ -116,6 +116,7 @@ namespace CrushDrone
             }
         }
         public override Atlas.Sprite PingSprite => MainPatcher.assets.ping;
+        public override Sprite SaveFileSprite => MainPatcher.saveSprite;
         public override Atlas.Sprite CraftingSprite => MainPatcher.assets.crafter;
         public override string Description =>  "A small drone with powerful claws capable of collecting resources.";
         public override string EncyclopediaEntry
