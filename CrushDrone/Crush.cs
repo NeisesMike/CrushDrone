@@ -177,8 +177,7 @@ namespace CrushDrone
         public void SetupMagnetBoots()
         {
             var magBoots = gameObject.EnsureComponent<VehicleFramework.VehicleComponents.MagnetBoots>();
-            magBoots.AttachDistance = 2f;
-            magBoots.MagnetDistance = 5f;
+            magBoots.MagnetDistance = 0.1f;
             magBoots.Attach = Attach;
             magBoots.Detach = Detach;
             magBoots.recharges = true;
