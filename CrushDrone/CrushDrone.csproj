@@ -97,6 +97,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy  $(TargetPath) "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\Plugins\$(SolutionName)\" /y</PostBuildEvent>
+    <PostBuildEvent>xcopy  $(TargetPath) "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\Plugins\!vehicles\$(SolutionName)\" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

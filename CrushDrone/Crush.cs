@@ -194,9 +194,43 @@ namespace CrushDrone
 
         public void CrushStorageModuleAction(int slotID, TechType techType, bool added)
         {
-            var numUpgrades = this.GetCurrentUpgrades().Where(x => x.Contains("SeamothStorageModule")).Count();
+            UWE.CoroutineHost.StartCoroutine(UpdateStorageSize());
+        }
+        private IEnumerator UpdateStorageSize()
+        {
+            yield return null; // wait one frame for the removed storage modules to go away
+            int storageClass = 0;
+            ModularStorageInput.GetAllModularStorageContainers(this).ForEach(x => storageClass += GetStorageSizeClass(x));
+            int desiredWidth = Math.Min(defaultStorageWidth + storageClass, 8);
+            int desiredHeight = Math.Min(defaultStorageHeight + storageClass, 10);
             InnateStorages.First().Container.GetComponent<InnateStorageContainer>()
-                .container.Resize(defaultStorageWidth + numUpgrades, defaultStorageHeight + numUpgrades);
+                .container.Resize(desiredWidth, desiredHeight);
+        }
+        private int GetStorageSizeClass(ItemsContainer cont)
+        {
+            var storageRootModule = cont?.tr?.parent?.gameObject;
+            if(storageRootModule == null)
+            {
+                return 0;
+            }
+            string name = storageRootModule.name;
+            if (name.Contains("2"))
+            {
+                return 2;
+            }
+            if (name.Contains("3"))
+            {
+                return 3;
+            }
+            if (name.Contains("4"))
+            {
+                return 4;
+            }
+            if (name.Contains("5"))
+            {
+                return 5;
+            }
+            return 1;
         }
     }
 }
