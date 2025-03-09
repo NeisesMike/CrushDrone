@@ -154,8 +154,8 @@ namespace CrushDrone
         }
         public override int BaseCrushDepth => 300;
         public override int CrushDepthUpgrade1 => 200;
-        public override int CrushDepthUpgrade2 => 400;
-        public override int CrushDepthUpgrade3 => 800;
+        public override int CrushDepthUpgrade2 => 600;
+        public override int CrushDepthUpgrade3 => 600;
         public override int MaxHealth => 250;
         public override int Mass => 500;
         public override int NumModules => 2;
