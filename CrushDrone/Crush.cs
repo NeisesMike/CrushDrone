@@ -10,8 +10,9 @@ using System.IO;
 using System.Reflection;
 
 using UnityEngine.U2D;
-using VehicleFramework.VehicleParts;
+using VehicleFramework.VehicleBuilding;
 using VehicleFramework.VehicleTypes;
+using VehicleFramework.StorageComponents;
 using VehicleFramework.Engines;
 
 namespace CrushDrone
@@ -29,7 +30,7 @@ namespace CrushDrone
         public override Transform CameraLocation => transform.Find("CameraLocation");
         public override string vehicleDefaultName => "Crush";
         public override GameObject VehicleModel => MainPatcher.assets.model;
-        public override GameObject CollisionModel => transform.Find("CollisionModel").gameObject;
+        public override GameObject[] CollisionModel => new GameObject[] { transform.Find("CollisionModel").gameObject };
         public override GameObject StorageRootObject => transform.Find("StorageRoot").gameObject;
         public override GameObject ModulesRootObject => transform.Find("ModulesRoot").gameObject;
         private int defaultStorageHeight = 5;
@@ -38,8 +39,8 @@ namespace CrushDrone
         {
             get
             {
-                var list = new List<VehicleFramework.VehicleParts.VehicleStorage>();
-                VehicleFramework.VehicleParts.VehicleStorage thisVS = new VehicleFramework.VehicleParts.VehicleStorage();
+                var list = new List<VehicleStorage>();
+                VehicleStorage thisVS = new VehicleStorage();
                 Transform thisStorage = transform.Find("ChassiTop");
                 thisVS.Container = thisStorage.gameObject;
                 thisVS.Height = defaultStorageHeight;
@@ -53,8 +54,8 @@ namespace CrushDrone
         {
             get
             {
-                var list = new List<VehicleFramework.VehicleParts.VehicleUpgrades>();
-                VehicleFramework.VehicleParts.VehicleUpgrades vu = new VehicleFramework.VehicleParts.VehicleUpgrades();
+                var list = new List<VehicleUpgrades>();
+                VehicleUpgrades vu = new VehicleUpgrades();
                 vu.Interface = transform.Find("BackLeft").gameObject;
                 vu.Flap = vu.Interface;
                 list.Add(vu);
@@ -65,8 +66,8 @@ namespace CrushDrone
         {
             get
             {
-                var list = new List<VehicleFramework.VehicleParts.VehicleBattery>();
-                VehicleFramework.VehicleParts.VehicleBattery vb1 = new VehicleFramework.VehicleParts.VehicleBattery();
+                var list = new List<VehicleBattery>();
+                VehicleBattery vb1 = new VehicleBattery();
                 vb1.BatterySlot = transform.Find("BackRight").gameObject;
                 list.Add(vb1);
                 return list;
@@ -76,8 +77,8 @@ namespace CrushDrone
         {
             get
             {
-                var list = new List<VehicleFramework.VehicleParts.VehicleFloodLight>();
-                VehicleFramework.VehicleParts.VehicleFloodLight leftLight = new VehicleFramework.VehicleParts.VehicleFloodLight
+                var list = new List<VehicleFloodLight>();
+                VehicleFloodLight leftLight = new VehicleFloodLight
                 {
                     Light = transform.Find("lights_parent/headlights/left").gameObject,
                     Angle = 100,
@@ -86,7 +87,7 @@ namespace CrushDrone
                     Range = 30f
                 };
                 list.Add(leftLight);
-                VehicleFramework.VehicleParts.VehicleFloodLight rightLight = new VehicleFramework.VehicleParts.VehicleFloodLight
+                VehicleFloodLight rightLight = new VehicleFloodLight
                 {
                     Light = transform.Find("lights_parent/headlights/right").gameObject,
                     Angle = 100,
@@ -100,7 +101,7 @@ namespace CrushDrone
         }
         public override List<GameObject> WaterClipProxies => null;
         public override List<GameObject> CanopyWindows => null;
-        public override GameObject BoundingBox => transform.Find("BoundingBox").gameObject;
+        public override BoxCollider BoundingBoxCollider => transform.Find("BoundingBox").gameObject.GetComponent<BoxCollider>();
         public override Dictionary<TechType, int> Recipe
         {
             get
@@ -115,9 +116,9 @@ namespace CrushDrone
                 return recipe;
             }
         }
-        public override Atlas.Sprite PingSprite => MainPatcher.assets.ping;
+        public override UnityEngine.Sprite PingSprite => MainPatcher.assets.ping;
         public override Sprite SaveFileSprite => MainPatcher.saveSprite;
-        public override Atlas.Sprite CraftingSprite => MainPatcher.assets.crafter;
+        public override UnityEngine.Sprite CraftingSprite => MainPatcher.assets.crafter;
         public override string Description =>  "A small drone with powerful claws capable of collecting resources.";
         public override string EncyclopediaEntry
         {
@@ -160,7 +161,7 @@ namespace CrushDrone
         public override int Mass => 500;
         public override int NumModules => 2;
         public override bool HasArms => true;
-        public override ModVehicleEngine Engine => gameObject.EnsureComponent<CrushEngine>();
+        public override VFEngine VFEngine => gameObject.EnsureComponent<CrushEngine>();
         public override VehicleArmsProxy Arms => new VehicleArmsProxy
         {
             leftArmPlacement = transform.Find("LeftArmPlace"),
@@ -172,7 +173,6 @@ namespace CrushDrone
         {
             base.Start();
             SetupMagnetBoots();
-            upgradeOnAddedActions.Add(CrushStorageModuleAction);
         }
         public void SetupMagnetBoots()
         {
@@ -182,6 +182,11 @@ namespace CrushDrone
             magBoots.Detach = Detach;
             magBoots.recharges = true;
             magBoots.rechargeRate = 0.5f;
+        }
+        public override void OnUpgradeModuleChange(int slotID, TechType techType, bool added)
+        {
+            base.OnUpgradeModuleChange(slotID, techType, added);
+            UWE.CoroutineHost.StartCoroutine(UpdateStorageSize());
         }
         public void Attach()
         {
@@ -204,7 +209,7 @@ namespace CrushDrone
             int desiredWidth = Math.Min(defaultStorageWidth + storageClass, 8);
             int desiredHeight = Math.Min(defaultStorageHeight + storageClass, 10);
             InnateStorages.First().Container.GetComponent<InnateStorageContainer>()
-                .container.Resize(desiredWidth, desiredHeight);
+                .Container.Resize(desiredWidth, desiredHeight);
         }
         private int GetStorageSizeClass(ItemsContainer cont)
         {

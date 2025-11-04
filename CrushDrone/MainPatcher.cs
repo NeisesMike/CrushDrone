@@ -6,13 +6,14 @@ using VehicleFramework.VehicleTypes;
 using VehicleFramework;
 using BiomeData = LootDistributionData.BiomeData;
 using VehicleFramework.Assets;
+using VehicleFramework.Admin;
 using UnityEngine;
 
 using innateStorage = System.Collections.Generic.List<System.Tuple<System.String, float>>;
 
 namespace CrushDrone
 {
-    [BepInPlugin("com.mikjaw.subnautica.crush.mod", "CrushDrone", "1.7.0")]
+    [BepInPlugin("com.mikjaw.subnautica.crush.mod", "CrushDrone", "2.0.0")]
     [BepInDependency(VehicleFramework.PluginInfo.PLUGIN_GUID, VehicleFramework.PluginInfo.PLUGIN_VERSION)]
     [BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID)]
     public class MainPatcher : BaseUnityPlugin
@@ -76,7 +77,7 @@ namespace CrushDrone
         public static void GetAssets()
         {
             assets = AssetBundleInterface.GetVehicleAssetsFromBundle("crush", "Crush", "SpriteAtlas", "DronePing", "CrafterSprite", "ArmFragment", "UnlockSprite");
-            saveSprite = AssetBundleInterface.LoadAdditionalRawSprite(assets.abi, "SpriteAtlas", "DronePing");
+            saveSprite = AssetBundleInterface.LoadAdditionalSprite(assets.abi, "SpriteAtlas", "DronePing");
             GameObject crushFragment = AssetBundleInterface.LoadAdditionalGameObject(assets.abi, "CrushFragment");
             MainPatcher.fragments = new List<GameObject> { assets.fragment, crushFragment };
             assets.abi.CloseBundle();

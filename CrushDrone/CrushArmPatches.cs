@@ -35,7 +35,7 @@ namespace CrushDrone
 		[HarmonyPatch(nameof(Inventory.Pickup))]
 		public static void OnHandClickPostfix(Pickupable __instance, bool __result)
 		{
-			VehicleFramework.VehicleTypes.Drone drone = VehicleFramework.VehicleTypes.Drone.mountedDrone;
+			VehicleFramework.VehicleTypes.Drone drone = VehicleFramework.VehicleTypes.Drone.MountedDrone;
 			if (drone != null)
 			{
 				if (drone.GetComponent<Crush>() && __result)

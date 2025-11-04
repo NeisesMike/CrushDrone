@@ -16,10 +16,10 @@ namespace CrushDrone
         protected override float REVERSE_TOP_SPEED => 1100;
         protected override float FORWARD_ACCEL => FORWARD_TOP_SPEED * 7;
         protected override float REVERSE_ACCEL => REVERSE_TOP_SPEED * 7;
-        protected override float waterDragDecay => 15f;
+        protected override float WaterDragDecay => 15f;
         protected override float DragThresholdSpeed => 0.2f;
 
-        public override void DrainPower(Vector3 moveDirection)
+        protected override void DrainPower(Vector3 moveDirection)
         {
             /* Rationale for these values
              * Seamoth spends this on Update
@@ -30,8 +30,8 @@ namespace CrushDrone
              */
             float scalarFactor = 0.04f;
             float basePowerConsumptionPerSecond = moveDirection.x + moveDirection.y + moveDirection.z;
-            float upgradeModifier = Mathf.Pow(0.85f, mv.numEfficiencyModules);
-            mv.GetComponent<PowerManager>().TrySpendEnergy(scalarFactor * basePowerConsumptionPerSecond * upgradeModifier * Time.deltaTime);
+            float upgradeModifier = Mathf.Pow(0.85f, MV.NumEfficiencyModules);
+            MV.GetComponent<VehicleFramework.VehicleComponents.PowerManager>().TrySpendEnergy(scalarFactor * basePowerConsumptionPerSecond * upgradeModifier * Time.deltaTime);
         }
     }
 }
