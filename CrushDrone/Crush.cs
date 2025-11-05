@@ -12,7 +12,7 @@ using System.Reflection;
 using UnityEngine.U2D;
 using VehicleFramework.VehicleBuilding;
 using VehicleFramework.VehicleTypes;
-using VehicleFramework.StorageComponents;
+using VehicleFramework.VehicleChildComponents;
 using VehicleFramework.Engines;
 
 namespace CrushDrone
@@ -176,7 +176,7 @@ namespace CrushDrone
         }
         public void SetupMagnetBoots()
         {
-            var magBoots = gameObject.EnsureComponent<VehicleFramework.VehicleComponents.MagnetBoots>();
+            var magBoots = gameObject.EnsureComponent<VehicleFramework.VehicleRootComponents.MagnetBoots>();
             magBoots.MagnetDistance = 0.1f;
             magBoots.Attach = Attach;
             magBoots.Detach = Detach;
@@ -190,11 +190,11 @@ namespace CrushDrone
         }
         public void Attach()
         {
-            gameObject.EnsureComponent<VehicleFramework.VehicleComponents.VFArmsManager>().ShowArms(false);
+            gameObject.EnsureComponent<VehicleFramework.VehicleRootComponents.VFArmsManager>().ShowArms(false);
         }
         public void Detach()
         {
-            gameObject.EnsureComponent<VehicleFramework.VehicleComponents.VFArmsManager>().ShowArms(true);
+            gameObject.EnsureComponent<VehicleFramework.VehicleRootComponents.VFArmsManager>().ShowArms(true);
         }
 
         public void CrushStorageModuleAction(int slotID, TechType techType, bool added)
