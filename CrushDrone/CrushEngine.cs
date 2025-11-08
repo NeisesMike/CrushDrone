@@ -31,7 +31,7 @@ namespace CrushDrone
             float scalarFactor = 0.04f;
             float basePowerConsumptionPerSecond = moveDirection.x + moveDirection.y + moveDirection.z;
             float upgradeModifier = Mathf.Pow(0.85f, MV.NumEfficiencyModules);
-            MV.GetComponent<VehicleFramework.VehicleRootComponents.PowerManager>().TrySpendEnergy(scalarFactor * basePowerConsumptionPerSecond * upgradeModifier * Time.deltaTime);
+            MV.gameObject.EnsureComponent<VehicleFramework.VehicleRootComponents.PowerManager>().TrySpendEnergy(scalarFactor * basePowerConsumptionPerSecond * upgradeModifier * Time.deltaTime);
         }
     }
 }
