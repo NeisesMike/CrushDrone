@@ -17,7 +17,7 @@ using VehicleFramework.Engines;
 
 namespace CrushDrone
 {
-    public class Crush : Drone
+    public partial class Crush : Drone
     {
         /* Set UnlockedWith to an impossible value
          * So that the Crush can be unlocked,

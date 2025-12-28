@@ -92,6 +92,7 @@
     <Compile Include="Crush.cs" />
     <Compile Include="CrushArmPatches.cs" />
     <Compile Include="CrushEngine.cs" />
+    <Compile Include="CrushPaint.cs" />
     <Compile Include="MainPatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
