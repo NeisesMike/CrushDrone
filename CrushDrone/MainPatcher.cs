@@ -32,7 +32,7 @@ namespace CrushDrone
             config = Nautilus.Handlers.OptionsPanelHandler.RegisterModOptions<CrushConfig>();
             var harmony = new Harmony("com.mikjaw.subnautica.crush.mod");
             harmony.PatchAll();
-            UWE.CoroutineHost.StartCoroutine(Register());
+            StartCoroutine(Register());
         }
         public static TechType RegisterCrushArmFragment(ModVehicle unlockVehicle)
         {
@@ -82,10 +82,10 @@ namespace CrushDrone
             MainPatcher.fragments = new List<GameObject> { assets.fragment, crushFragment };
             assets.abi.CloseBundle();
         }
-        public static IEnumerator Register()
+        public IEnumerator Register()
         {
             Drone crush = assets.model.EnsureComponent<Crush>() as Drone;
-            yield return UWE.CoroutineHost.StartCoroutine(VehicleRegistrar.RegisterVehicle(crush));
+            yield return StartCoroutine(VehicleRegistrar.RegisterVehicle(crush));
             CrushArmTechType = RegisterCrushArmFragment(crush);
 
             //Nautilus.Handlers.StoryGoalHandler.RegisterBiomeGoal("CrushMushroomForest", Story.GoalType.Story, biomeName: "mushroomForest", minStayDuration: 3f, delay: 3f);

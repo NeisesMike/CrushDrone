@@ -186,7 +186,7 @@ namespace CrushDrone
         public override void OnUpgradeModuleChange(int slotID, TechType techType, bool added)
         {
             base.OnUpgradeModuleChange(slotID, techType, added);
-            UWE.CoroutineHost.StartCoroutine(UpdateStorageSize());
+            StartCoroutine(UpdateStorageSize());
         }
         public void Attach()
         {
@@ -195,11 +195,6 @@ namespace CrushDrone
         public void Detach()
         {
             gameObject.EnsureComponent<VehicleFramework.VehicleRootComponents.VFArmsManager>().ShowArms(true);
-        }
-
-        public void CrushStorageModuleAction(int slotID, TechType techType, bool added)
-        {
-            UWE.CoroutineHost.StartCoroutine(UpdateStorageSize());
         }
         private IEnumerator UpdateStorageSize()
         {
